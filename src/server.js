@@ -2,14 +2,16 @@ const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 
+const { routes } = require('./routes');
+
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
-const server = () => {
+const runServer = () => {
   const app = express();
   const db = mongoose.connection;
 
-  mongoose.connect('mongodb://mongo:27017/test', {
+  mongoose.connect('mongodb://mongo:27017/vuttr', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
@@ -20,10 +22,12 @@ const server = () => {
 
     app.use(cors());
 
-    app.get('/', (req, res) => res.send('It works!'));
+    app.use('/', routes());
 
     app.listen(PORT, HOST, () => console.log(`Listening on ${PORT}`));
   });
+
+  // return app;
 };
 
-module.exports = { server };
+module.exports = { runServer };

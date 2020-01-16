@@ -7,7 +7,7 @@ const { routes } = require('./routes');
 
 const PORT = 3000;
 const HOST = '0.0.0.0';
-const DATABASE = process.env.NODE_ENV | 'vuttr';
+const DATABASE = process.env.NODE_ENV || 'vuttr';
 
 const runServer = () => {
   const app = express();

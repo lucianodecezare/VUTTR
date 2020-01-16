@@ -2,6 +2,16 @@ const { Router } = require('express');
 
 const { Tools } = require('./models/tool.model');
 
+/**
+ * Get all the tools or filter tools by tag.
+ *
+ * Filter comes in query string like: `/tools?tag=node`
+ *
+ * @param {Object} req Request
+ * @param {Object} res Response
+ *
+ * @returns {Array} `Tools` array
+ */
 const getTools = async (req, res) => {
   const tag = req.query;
 
@@ -22,6 +32,14 @@ const getTools = async (req, res) => {
   }
 };
 
+/**
+ * Create a tool.
+ *
+ * @param {Object} req Request
+ * @param {Object} res Response
+ *
+ * @returns {Object} Created `Tool`
+ */
 const createTool = async (req, res) => {
   try {
     const newTool = await Tools.create(req.body).catch((error) => {
@@ -34,6 +52,12 @@ const createTool = async (req, res) => {
   }
 };
 
+/**
+ * Delete one tool.
+ *
+ * @param {Object} req Request
+ * @param {Object} res Response
+ */
 const deleteTool = async (req, res) => {
   const { id } = req.params;
 

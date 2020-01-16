@@ -7,12 +7,13 @@ const { routes } = require('./routes');
 
 const PORT = 3000;
 const HOST = '0.0.0.0';
-const DATABASE = process.env.NODE_ENV || 'vuttr';
+const DATABASE = 'vuttr';
 
 const runServer = () => {
   const app = express();
   const db = mongoose.connection;
 
+  // Not localhost because of docker
   mongoose.connect(`mongodb://mongo:27017/${DATABASE}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -20,17 +21,14 @@ const runServer = () => {
 
   db.on('error', console.error.bind(console, 'Connection error: '));
   db.once('open', () => {
-    console.log('DB Connected');
+    console.log('Connected to database');
 
     app.use(bodyParser.json({ type: 'application/json', limit: '5mb' }));
     app.use(cors());
-
     app.use('/', routes());
 
     app.listen(PORT, HOST, () => console.log(`Listening on ${PORT}`));
   });
-
-  // return app;
 };
 
 module.exports = { runServer };

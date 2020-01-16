@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: VUTTR
+  description: API for VUTTR (Veru Useful Tools To Remember)
+  contact:
+    email: lucianodecezare@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/TheCezae/VUTTR/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: Users
+  description: Operations available to all users
+paths:
+  /tools:
+    get:
+      tags:
+      - Users
+      summary: searches all or within all tools
+      description: Brings all tools
+      operationId: searchAllTools
+      parameters:
+      - name: tag
+        in: query
+        description: The tag to be searched
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/tool'
+        "500":
+          description: error
+    post:
+      tags:
+      - Users
+      summary: adds a tool
+      description: Adds a tool
+      operationId: addTool
+      requestBody:
+        description: Tool to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tool'
+      responses:
+        "201":
+          description: item created
+        "500":
+          description: error
+    delete:
+      tags:
+      - Users
+      summary: delete a tool
+      description: Delete a tool
+      operationId: deleteTool
+      responses:
+        "204":
+          description: no content
+        "500":
+          description: error
+components:
+  schemas:
+    tool:
+      required:
+      - description
+      - link
+      - tags
+      - title
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          example: NodeJS
+        description:
+          type: string
+          example: Runs javascript everywhere
+        tags:
+          type: array
+          example:
+          - nodejs
+          - javascript
+          items:
+            type: string
